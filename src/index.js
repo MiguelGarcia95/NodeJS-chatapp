@@ -1,8 +1,13 @@
-const express = require('express');
 const path = require('path');
+const http = require('http');
+const express = require('express');
+const socketio = require('socket.io');
 const hbs = require('hbs');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+
 const port = process.env.PORT || 3000;
 const publicDirPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views');
@@ -14,10 +19,14 @@ app.set('views', viewsPath);
 // Setup static dir to serve
 app.use(express.static(publicDirPath));
 
+io.on('connection', () => {
+  console.log('New WebSocket connection')
+});
+
 app.get('', (req, res) => {
   res.render('index');
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('Server is up')
 });
