@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
   socket.on('sendMessage', (e) => {
     console.log()
     // count++;
-    io.emit('clientMessage', e);
+    io.emit('message', e);
   });
 });
 
