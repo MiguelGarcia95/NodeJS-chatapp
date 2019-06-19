@@ -38,6 +38,10 @@ io.on('connection', (socket) => {
     io.emit('locationMessage', `https://google.com/maps?q=${e.lat},${e.long}`);
     callback();
   })
+
+  socket.io('disconnect', () => {
+    io.emit('message', 'A user has left!');
+  })
 });
 
 app.get('', (req, res) => {
