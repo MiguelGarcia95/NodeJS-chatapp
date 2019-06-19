@@ -4,6 +4,7 @@ const express = require('express');
 const socketio = require('socket.io');
 // const hbs = require('hbs');
 const Filter = require('bad-words');
+const {generateMessage} = require('./utils/messages');
 
 const app = express();
 const server = http.createServer(app);
@@ -21,16 +22,17 @@ const publicDirPath = path.join(__dirname, '../public');
 app.use(express.static(publicDirPath));
 
 io.on('connection', (socket) => {
-  socket.emit('message', 'Welcome!');
+  socket.emit('message',  generateMessage('Welcome!'));
+  socket.broadcast.emit('message', generateMessage('A new user has joined!'));
   
-  socket.on('sendMessage', (e, callback) => {
+  socket.on('sendMessage', (message, callback) => {
     const filter = new Filter();
 
-    if(filter.isProfane(e)) {
+    if(filter.isProfane(message)) {
       return callback('Profanity is not allowed!');
     }
 
-    io.emit('message', e);
+    io.emit('message', generateMessage(message));
     callback();
   });
 
@@ -39,8 +41,8 @@ io.on('connection', (socket) => {
     callback();
   })
 
-  socket.io('disconnect', () => {
-    io.emit('message', 'A user has left!');
+  socket.on('disconnect', () => {
+    io.emit('message', generateMessage('A user has left!'));
   })
 });
 
