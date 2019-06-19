@@ -1,20 +1,32 @@
 const socket = io();
 
+// Elements 
+const messageForm = document.getElementById('message-form');
+const messageFormInput = messageForm.querySelector('input');
+const messageFormButton = messageForm.querySelector('button');
+const locationButton = document.getElementById('send-location');
+
 socket.on('message', (message) => {
-  console.log(message);
+  console.log(message); 
 })
 
-document.getElementById('message-form').addEventListener('submit', e => {
+messageForm.addEventListener('submit', e => {
   e.preventDefault();
+  //disable
 
   const messageInput = e.target.elements.message.value;
   
-  socket.emit('sendMessage', messageInput, (message) => {
+  socket.emit('sendMessage', messageInput, error => {
+    //enable
+    if (error) {
+      return console.log(error);
+    } 
+
     console.log('message was delivered');
   });
 });
 
-document.getElementById('send-location').addEventListener('click', () => {
+locationButton.addEventListener('click', () => {
   if (!navigator.geolocation) {
     return alert('Geolation is not supported by your browser.');
   }
@@ -24,6 +36,8 @@ document.getElementById('send-location').addEventListener('click', () => {
     socket.emit('sendLocation', {
       lat: position.coords.latitude,
       long: position.coords.longitude
+    }, () => {
+      console.log('Location shared');
     });
   });
 });
