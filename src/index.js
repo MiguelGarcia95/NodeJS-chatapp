@@ -19,15 +19,14 @@ app.set('views', viewsPath);
 // Setup static dir to serve
 app.use(express.static(publicDirPath));
 
-let count = 0;
-
 io.on('connection', (socket) => {
-  console.log('New WebSocket connection')
-  socket.emit('countUpdated', count);
+  // console.log('New WebSocket connection')
+  socket.emit('message', 'Welcome!');
   
-  socket.on('increment', () => {
-    count++;
-    io.emit('countUpdated', count);
+  socket.on('sendMessage', (e) => {
+    console.log()
+    // count++;
+    io.emit('clientMessage', e);
   });
 });
 
