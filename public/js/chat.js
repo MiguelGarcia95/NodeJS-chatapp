@@ -8,9 +8,10 @@ socket.on('clientMessage', (clientMessage) => {
   console.log(clientMessage);
 })
 
-const messageInput = document.getElementById('message');
-const submit = document.getElementById('send');
+document.getElementById('message-form').addEventListener('submit', e => {
+  e.preventDefault();
 
-submit.addEventListener('click', () => {
-  socket.emit('sendMessage', messageInput.value);
-});
+  const messageInput = document.getElementById('message').value;
+
+  socket.emit('sendMessage', messageInput);
+})
