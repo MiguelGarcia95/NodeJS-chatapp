@@ -20,12 +20,10 @@ app.set('views', viewsPath);
 app.use(express.static(publicDirPath));
 
 io.on('connection', (socket) => {
-  // console.log('New WebSocket connection')
   socket.emit('message', 'Welcome!');
   
   socket.on('sendMessage', (e) => {
     console.log()
-    // count++;
     io.emit('message', e);
   });
 });
