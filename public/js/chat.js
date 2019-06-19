@@ -8,8 +8,11 @@ const locationButton = document.getElementById('send-location');
 const messages = document.getElementById('messages');
 
 // Templates
-const messageTemplate = document.getElementById('message-template').innerHTML
-const locationMessageTemplate = document.getElementById('location-message-template').innerHTML
+const messageTemplate = document.getElementById('message-template').innerHTML;
+const locationMessageTemplate = document.getElementById('location-message-template').innerHTML;
+
+// Options 
+const {username, room} = Qs.parse(location.search, {ignoreQueryPrefix: true});
 
 socket.on('message', (message) => {
   console.log(message); 
@@ -66,3 +69,5 @@ locationButton.addEventListener('click', () => {
     });
   });
 });
+ 
+socket.emit('join', {username, room});
