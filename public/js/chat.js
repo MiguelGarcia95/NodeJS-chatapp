@@ -13,11 +13,15 @@ socket.on('message', (message) => {
 messageForm.addEventListener('submit', e => {
   e.preventDefault();
   //disable
+  messageFormButton.setAttribute('disabled', 'disabled')
 
   const messageInput = e.target.elements.message.value;
   
   socket.emit('sendMessage', messageInput, error => {
     //enable
+    messageFormButton.removeAttribute('disabled');
+    messageFormInput.value = '';
+    messageFormInput.focus();
     if (error) {
       return console.log(error);
     } 
