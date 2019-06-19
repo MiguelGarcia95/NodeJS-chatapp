@@ -2,7 +2,6 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
-// const hbs = require('hbs');
 const Filter = require('bad-words');
 const {generateMessage} = require('./utils/messages');
 
@@ -12,11 +11,6 @@ const io = socketio(server);
 
 const port = process.env.PORT || 3000;
 const publicDirPath = path.join(__dirname, '../public');
-// const viewsPath = path.join(__dirname, '../templates/views');
-
-//set up handlebars engine
-// app.set('view engine', 'hbs');
-// app.set('views', viewsPath);
 
 // Setup static dir to serve
 app.use(express.static(publicDirPath));
