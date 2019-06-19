@@ -35,6 +35,7 @@ locationButton.addEventListener('click', () => {
     return alert('Geolation is not supported by your browser.');
   }
 
+  locationButton.setAttribute('disabled', 'disabled');
   navigator.geolocation.getCurrentPosition(position => {
     // console.log(`Location: ${position.coords.longitude} ${position.coords.latitude}`)
     socket.emit('sendLocation', {
@@ -42,6 +43,7 @@ locationButton.addEventListener('click', () => {
       long: position.coords.longitude
     }, () => {
       console.log('Location shared');
+      locationButton.removeAttribute('disabled');
     });
   });
 });
