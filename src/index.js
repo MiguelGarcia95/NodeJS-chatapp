@@ -19,8 +19,16 @@ app.set('views', viewsPath);
 // Setup static dir to serve
 app.use(express.static(publicDirPath));
 
-io.on('connection', () => {
+let count = 0;
+
+io.on('connection', (socket) => {
   console.log('New WebSocket connection')
+  socket.emit('countUpdated', count);
+  
+  socket.on('increment', () => {
+    count++;
+    socket.emit('countUpdated', count);
+  });
 });
 
 app.get('', (req, res) => {
