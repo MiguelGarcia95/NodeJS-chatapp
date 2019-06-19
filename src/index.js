@@ -11,11 +11,11 @@ const io = socketio(server);
 
 const port = process.env.PORT || 3000;
 const publicDirPath = path.join(__dirname, '../public');
-const viewsPath = path.join(__dirname, '../templates/views');
+// const viewsPath = path.join(__dirname, '../templates/views');
 
 //set up handlebars engine
-app.set('view engine', 'hbs');
-app.set('views', viewsPath);
+// app.set('view engine', 'hbs');
+// app.set('views', viewsPath);
 
 // Setup static dir to serve
 app.use(express.static(publicDirPath));
